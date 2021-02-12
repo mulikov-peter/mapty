@@ -3,7 +3,7 @@
 // Create class Statistics
 class Statistics {
   constructor() {
-    this.gameResults = [{ victory: true, bet: 3 }];
+    this.gameResults = [];
   }
 
   // Add games to gemeResults

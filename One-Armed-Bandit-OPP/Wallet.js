@@ -6,13 +6,13 @@ class Wallet {
     let _money = money;
 
     // Get actual value of wallet
-    this.getWalletValue = () => this._money;
+    this.getWalletValue = () => _money;
 
     // Check if the user has enough money for playing
     this.checkCanPlay = value => (_money >= value ? true : false);
 
     // Change the value of wallet if win - increase else decrease
-    this.changeWallet = (value, type) => {
+    this.changeWallet = (value, type = 'increase') => {
       if (typeof value === 'number' && !isNaN(value)) {
         if (type === 'increase') return (_money += value);
         else if (type === 'decrease') return (_money -= value);
