@@ -1,5 +1,4 @@
 'use strict';
-
 // Create class Result
 class Result {
   static winMoney(result, bet) {

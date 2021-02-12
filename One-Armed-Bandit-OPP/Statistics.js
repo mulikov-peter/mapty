@@ -12,7 +12,6 @@ class Statistics {
       victory,
       bet,
     };
-    console.log(gameResult);
     this.gameResults.push(gameResult);
   }
 
@@ -24,7 +23,3 @@ class Statistics {
     return [games, victories, losses];
   }
 }
-
-const stat = new Statistics();
-
-console.log(stat.showGameStatistics());

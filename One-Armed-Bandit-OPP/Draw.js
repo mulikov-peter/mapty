@@ -1,5 +1,4 @@
 'use strict';
-
 // Create class Draw
 class Draw {
   constructor() {

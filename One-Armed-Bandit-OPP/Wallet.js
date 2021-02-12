@@ -24,5 +24,3 @@ class Wallet {
     };
   }
 }
-
-const w = new Wallet(100);
