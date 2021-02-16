@@ -69,6 +69,10 @@ h1 {
   font-weight: bold;
 }
 
+.error {
+  background-color: palevioletred;
+}
+
 @media (max-width: 1024px) {
   .container {
     width: 90%;

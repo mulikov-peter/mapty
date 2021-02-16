@@ -46,23 +46,32 @@ class Game {
     this.spanWins.textContent = stats[1];
     this.spanLosses.textContent = stats[2];
     this.inputBet.value = '';
-    console.log(this.spanWallet);
+  }
+
+  showAlert(message, className) {
+    // Create div alert
+    const divMessage = `
+    <div class='alert ${className}'>${message}</div>
+    `;
+    this.inputBet.insertAdjacentHTML('beforebegin', divMessage);
+    // TimeOut after 3 sec
+    setTimeout(function () {
+      document.querySelector('.alert').remove();
+    }, 3000);
   }
 
   startGame() {
     if (this.inputBet.value < 1)
-      //Todo add set interval for desepire message
-      return this.inputBet.insertAdjacentHTML(
-        'beforebegin',
-        '<h3>This bet is too small</h3>'
-      );
+      // Show alert
+      return this.showAlert(`This bet is too small`, 'error');
 
     const bet = Math.floor(this.inputBet.value);
 
     if (!this.wallet.checkCanPlay(bet)) {
-      return this.inputBet.insertAdjacentHTML(
-        'beforebegin',
-        '<h3>You have not enough money or input value is not correct </h3>'
+      // Show alert
+      return this.showAlert(
+        `You have not enough money or input value is not correct`,
+        'error'
       );
     }
 
