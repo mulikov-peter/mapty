@@ -64,12 +64,14 @@ const inputDistance = document.querySelector('.form__input--distance');
 const inputDuration = document.querySelector('.form__input--duration');
 const inputCadence = document.querySelector('.form__input--cadence');
 const inputElevation = document.querySelector('.form__input--elevation');
+// const workoutLi = document.querySelector('.workout');
 
 class App {
   #map;
   #mapZoomLevel = 13;
   #mapEvent;
   #workouts = [];
+  #markers = [];
   constructor() {
     // Get user's position
     this._getPosition();
@@ -83,6 +85,9 @@ class App {
     inputType.addEventListener('change', this._toggleElevationField);
 
     containerWorkouts.addEventListener('click', this._moveToPopup.bind(this));
+
+    // Delete event
+    containerWorkouts.addEventListener('click', this._deleteWorkout.bind(this));
   }
 
   _getPosition() {
@@ -198,7 +203,7 @@ class App {
 
   _renderWorkoutMarker(workout) {
     // Display Marker on the map
-    L.marker(workout.coords)
+    const marker = L.marker(workout.coords)
       .addTo(this.#map)
       .bindPopup(
         L.popup({
@@ -213,12 +218,19 @@ class App {
         `${workout.type === 'running' ? '🏃‍' : '🚴'} ${workout.description}`
       )
       .openPopup();
+    this.#markers.push(marker);
+    workout.markerId = marker._leaflet_id;
   }
 
   _renderWorkout(workout) {
     let html = `
     <li class="workout workout--${workout.type}" data-id="${workout.id}">
-      <h2 class="workout__title">${workout.description}</h2>
+      <div class='workout__title--container'>
+        <h2 class="workout__title">${workout.description}</h2>
+        <div class='workout__controls'>
+          <img class='delete' data-type='delete' src="trash-can.svg" alt="Logo" class="logo" />       
+        </div>
+      </div>
         <div class="workout__details">
           <span class="workout__icon">${
             workout.type === 'running' ? '🏃‍' : '🚴'
@@ -303,6 +315,26 @@ class App {
   reset() {
     localStorage.removeItem('workouts');
     location.reload();
+  }
+
+  // Delete workout
+  _deleteWorkout(e) {
+    const workoutEl = e.target.closest('.workout');
+
+    if (!workoutEl) return;
+
+    const workout = this.#workouts.find(el => el.id === workoutEl.dataset.id);
+
+    const workoutIndex = this.#workouts.findIndex(
+      el => el.id === workoutEl.dataset.id
+    );
+
+    const marker = this.#markers.find(m => m._leaflet_id === workout.markerId);
+
+    this.#workouts.splice(workoutIndex, 1);
+    workoutEl.remove();
+    this._setLocalStorage();
+    marker.remove();
   }
 }
 
