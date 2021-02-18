@@ -1,5 +1,4 @@
 'use strict';
-
 class Workout {
   date = new Date();
   id = (Date.now() + '').slice(-10);
@@ -57,11 +56,6 @@ class Cycling extends Workout {
   }
 }
 
-// Test
-// const run1 = new Running([39, -12], 5.2, 24, 178);
-
-// const cycling1 = new Cycling([39, -12], 27, 95, 523);
-// console.log(run1, cycling1);
 //==========================
 const form = document.querySelector('.form');
 const containerWorkouts = document.querySelector('.workouts');
@@ -77,7 +71,12 @@ class App {
   #mapEvent;
   #workouts = [];
   constructor() {
+    // Get user's position
     this._getPosition();
+
+    // Get data from lockal storage
+    this._getLocalStorage();
+
     // Submit form
     form.addEventListener('submit', this._newWorkout.bind(this));
 
@@ -99,7 +98,7 @@ class App {
   _loadMap(position) {
     const { latitude } = position.coords;
     const { longitude } = position.coords;
-    console.log(`https://www.google.com/maps/@${latitude},${longitude}`);
+    // console.log(`https://www.google.com/maps/@${latitude},${longitude}`);
 
     const coords = [latitude, longitude];
 
@@ -112,6 +111,11 @@ class App {
 
     //on() - it's like addEventListener but it comes from library 'Leaflet'
     this.#map.on('click', this._showForm.bind(this));
+
+    // Render workout marker after loading from lockal storage
+    this.#workouts.forEach(work => {
+      this._renderWorkoutMarker(work);
+    });
   }
 
   _showForm(mapE) {
@@ -187,6 +191,9 @@ class App {
 
     // Hide form and clear input fields
     this._hideForm();
+
+    // Set local storage to all workouts
+    this._setLocalStorage();
   }
 
   _renderWorkoutMarker(workout) {
@@ -259,14 +266,12 @@ class App {
 
   _moveToPopup(e) {
     const workoutEl = e.target.closest('.workout');
-    console.log(workoutEl);
+
     if (!workoutEl) return;
 
     const workout = this.#workouts.find(
       work => work.id === workoutEl.dataset.id
     );
-
-    console.log(workout);
 
     this.#map.setView(workout.coords, this.#mapZoomLevel, {
       animate: true,
@@ -276,7 +281,28 @@ class App {
     });
 
     // Using the public interface
-    workout.click();
+    // workout.click();
+  }
+
+  _setLocalStorage() {
+    localStorage.setItem('workouts', JSON.stringify(this.#workouts));
+  }
+
+  _getLocalStorage() {
+    const data = JSON.parse(localStorage.getItem('workouts'));
+
+    if (!data) return;
+
+    this.#workouts = data;
+
+    this.#workouts.forEach(work => {
+      this._renderWorkout(work);
+    });
+  }
+
+  reset() {
+    localStorage.removeItem('workouts');
+    location.reload();
   }
 }
 
