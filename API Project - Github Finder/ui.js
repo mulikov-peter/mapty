@@ -3,6 +3,7 @@ class UI {
     this.profile = document.querySelector('#profile');
   }
 
+  // Display profile
   showProfile(user) {
     this.profile.innerHTML = `
     <div class="card card-body mb-3">
@@ -49,7 +50,32 @@ class UI {
     <div class="repos"></div>
     `;
   }
-}
 
-let birthday = new Date('1995-12-17T03:24:00');
-console.log(birthday);
+  // Show alert message
+  showAlert(message, className) {
+    // Clear any remaining alerts
+    this.clearAlert();
+
+    const alert = `
+    <div class="${className}">${message}</div>
+    `;
+    this.profile.insertAdjacentHTML('afterbegin', alert);
+
+    // Timeout after 3 sec
+    setTimeout(() => {
+      this.clearAlert();
+    }, 3000);
+  }
+
+  // Clear alert message
+  clearAlert() {
+    const currentAlert = document.querySelector('.alert');
+    console.log(currentAlert);
+    if (currentAlert) currentAlert.remove();
+  }
+
+  // Clear profile
+  clearProfile() {
+    this.profile.innerHTML = '';
+  }
+}
