@@ -13,9 +13,9 @@ const ItemController = (function () {
   // Data Structure / State
   const data = {
     items: [
-      { id: 0, name: 'iPhone-12', cost: 1000 },
-      { id: 1, name: 'Laptop', cost: 1400 },
-      { id: 2, name: 'Car (BMW-i3)', cost: 8900 },
+      // { id: 0, name: 'iPhone-12', cost: 1000 },
+      // { id: 1, name: 'Laptop', cost: 1400 },
+      // { id: 2, name: 'Car (BMW-i3)', cost: 8900 },
     ],
     currentItem: null,
     totalCost: 0,
@@ -54,36 +54,53 @@ const ItemController = (function () {
 // UI COntroller
 const UIController = (function () {
   const UISelectors = {
-    itemList: '#item-list',
-    addBtn: '.add-btn',
-    itemNameInput: '#item-name',
-    itemCostInput: '#item-cost',
+    itemList: document.querySelector('#item-list'),
+    addBtn: document.querySelector('.add-btn'),
+    itemNameInput: document.querySelector('#item-name'),
+    itemCostInput: document.querySelector('#item-cost'),
   };
 
-  // Public method
+  // Private methods:
+  // Create li
+  const createLiElement = function (id, name, cost) {
+    return `
+    <li class='list-group-item' id='item-${id}'>
+      <strong>${name}:</strong> <em>${cost} $</em>
+      <a href='#' class='secondary'>
+        <i class='edit-item fa fa-pencil pull-right'></i>
+      </a>
+    </li>
+    `;
+  };
+
+  // Public methods:
   return {
     populateItemList: function (items) {
       let html = ``;
 
       items.forEach(item => {
         const { id, name, cost } = item;
-        html += `
-        <li class="list-group-item" id="item-${id}">
-          <strong>${name}:</strong> <em>${cost} $</em>
-          <a href="#" class="secondary">
-            <i class="edit-item fa fa-pencil pull-right"></i>
-          </a>
-        </li>
-        `;
+        html += createLiElement(id, name, cost);
       });
       // Insert list items
-      document.querySelector(UISelectors.itemList).innerHTML = html;
+      UISelectors.itemList.innerHTML = html;
     },
     getItemInput: function () {
       return {
-        name: document.querySelector(UISelectors.itemNameInput).value,
-        cost: document.querySelector(UISelectors.itemCostInput).value,
+        name: UISelectors.itemNameInput.value,
+        cost: UISelectors.itemCostInput.value,
       };
+    },
+    addListItem: function (item) {
+      // Create li element
+      const li = createLiElement(item.id, item.name, item.cost);
+
+      // Insert li into html
+      UISelectors.itemList.insertAdjacentHTML('beforeend', li);
+    },
+    clearInputFields: function () {
+      UISelectors.itemNameInput.value = '';
+      UISelectors.itemCostInput.value = '';
     },
     getSelectors: function () {
       return UISelectors;
@@ -103,6 +120,10 @@ const App = (function (ItemController, UIController) {
     if (input.name !== '' && input.cost !== '') {
       // Add Item
       const newItem = ItemController.addItem(input.name, input.cost);
+      // Add item to UI list
+      UIController.addListItem(newItem);
+      // Clear fields
+      UIController.clearInputFields();
     }
   };
 
@@ -112,9 +133,7 @@ const App = (function (ItemController, UIController) {
     const UISelectors = UIController.getSelectors();
 
     // Add item event
-    document
-      .querySelector(UISelectors.addBtn)
-      .addEventListener('click', itemAddSubmit);
+    UISelectors.addBtn.addEventListener('click', itemAddSubmit);
   };
 
   // Public methods
