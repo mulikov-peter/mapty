@@ -45,6 +45,16 @@ const ItemController = (function () {
 
       return newItem;
     },
+    getTotalCost: function () {
+      let total = 0;
+      data.items.forEach(item => {
+        total += item.cost;
+      });
+      // Set total cost in data structure
+      data.totalCost = total;
+
+      return data.totalCost;
+    },
     logData: function () {
       return data;
     },
@@ -58,6 +68,7 @@ const UIController = (function () {
     addBtn: document.querySelector('.add-btn'),
     itemNameInput: document.querySelector('#item-name'),
     itemCostInput: document.querySelector('#item-cost'),
+    totalCost: document.querySelector('.total-cost'),
   };
 
   // Private methods:
@@ -102,6 +113,9 @@ const UIController = (function () {
       UISelectors.itemNameInput.value = '';
       UISelectors.itemCostInput.value = '';
     },
+    displayTotalCost: function (totalCost) {
+      UISelectors.totalCost.textContent = totalCost;
+    },
     getSelectors: function () {
       return UISelectors;
     },
@@ -122,6 +136,10 @@ const App = (function (ItemController, UIController) {
       const newItem = ItemController.addItem(input.name, input.cost);
       // Add item to UI list
       UIController.addListItem(newItem);
+      // Get total cost
+      const totalCost = ItemController.getTotalCost();
+      // Add total cost to UI
+      UIController.displayTotalCost(totalCost);
       // Clear fields
       UIController.clearInputFields();
     }
