@@ -14,9 +14,9 @@ const ItemController = (function () {
   // Data Structure / State
   const data = {
     items: [
-      { id: 0, name: 'iPhone-12', cost: 1000 },
-      { id: 1, name: 'Laptop', cost: 1400 },
-      { id: 2, name: 'Car (BMW-i3)', cost: 8900 },
+      // { id: 0, name: 'iPhone-12', cost: 1000 },
+      // { id: 1, name: 'Laptop', cost: 1400 },
+      // { id: 2, name: 'Car (BMW-i3)', cost: 8900 },
     ],
     currentItem: null,
     totalCost: 0,
@@ -28,12 +28,9 @@ const ItemController = (function () {
       return data.items;
     },
     addItem: function (name, cost) {
-      let id;
       // Create id
-      if (data.items.length > 0) {
-        id = data.items[data.items.length - 1].id + 1;
-      }
-      if (data.items.length < 0) id = 0;
+      const id =
+        data.items.length > 0 ? data.items[data.items.length - 1].id + 1 : 0;
 
       // Cost to number
       const costNumber = parseInt(cost);
@@ -50,6 +47,20 @@ const ItemController = (function () {
       const found = data.items.find(item => item.id === id);
       return found;
     },
+    updateItem: function (name, cost) {
+      // Cost to number
+      const costNumber = parseInt(cost);
+
+      let found = null;
+      data.items.forEach(item => {
+        if (item.id === data.currentItem.id) {
+          item.name = name;
+          item.cost = costNumber;
+          found = item;
+        }
+      });
+      return found;
+    },
     setCurrentItem: function (itemToEdit) {
       data.currentItem = itemToEdit;
     },
@@ -57,10 +68,13 @@ const ItemController = (function () {
       return data.currentItem;
     },
     getTotalCost: function () {
-      let total = 0;
-      data.items.forEach(item => {
-        total += item.cost;
-      });
+      // let total = 0;
+      // data.items.forEach(item => {
+      //   total += item.cost;
+      // });
+
+      const total = data.items.reduce((acc, cur) => acc + cur.cost, 0);
+
       // Set total cost in data structure
       data.totalCost = total;
 
@@ -124,6 +138,30 @@ const UIController = (function () {
       // Insert li into html
       UISelectors.itemList.insertAdjacentHTML('beforeend', li);
     },
+    updateListItem: function (updatedItem) {
+      let listItems = document.querySelectorAll('#item-list li');
+
+      [...listItems].forEach(listItem => {
+        const itemId = listItem.getAttribute('id');
+
+        if (itemId === `item-${updatedItem.id}`) {
+          document.querySelector(`#${itemId}`).innerHTML = `
+          <strong>${updatedItem.name}:</strong> <em>${updatedItem.cost} $</em>
+          <a href='#' class='secondary'>
+            <i class='edit-item fa fa-pencil pull-right'></i>
+          </a>
+          `;
+
+          //TODO
+          // const li = createLiElement(
+          //   itemId,
+          //   updatedItem.name,
+          //   updatedItem.cost
+          // );
+          // document.querySelector(`#${itemId}`).replaceWith(li);
+        }
+      });
+    },
     clearInputFields: function () {
       UISelectors.itemNameInput.value = '';
       UISelectors.itemCostInput.value = '';
@@ -179,8 +217,8 @@ const App = (function (ItemController, UIController) {
     }
   };
 
-  // Update item submit
-  const itemUpdateSubmit = function (e) {
+  // Click edit item
+  const itemEditClick = function (e) {
     e.preventDefault();
     if (e.target.classList.contains('edit-item')) {
       // Get list item id
@@ -203,6 +241,23 @@ const App = (function (ItemController, UIController) {
     }
   };
 
+  // Update item submit
+  const itemUpdateSubmit = function (e) {
+    e.preventDefault();
+    // Get item input
+    const input = UIController.getItemInput();
+    // Update item
+    const updatedItem = ItemController.updateItem(input.name, input.cost);
+    // Update UI
+    UIController.updateListItem(updatedItem);
+    // Get total cost
+    const totalCost = ItemController.getTotalCost();
+    // Add total cost to UI
+    UIController.displayTotalCost(totalCost);
+
+    UIController.clearEditState();
+  };
+
   // Load event listeners
   const loadEventListeners = function () {
     // Get UI Selectors
@@ -211,8 +266,19 @@ const App = (function (ItemController, UIController) {
     // Add item event
     UISelectors.addBtn.addEventListener('click', itemAddSubmit);
 
+    // Disable submit on enter
+    document.addEventListener('keypress', function (e) {
+      if (e.code === 'Enter') {
+        e.preventDefault();
+        return false;
+      }
+    });
+
     // Edit-icon click event
-    UISelectors.itemList.addEventListener('click', itemUpdateSubmit);
+    UISelectors.itemList.addEventListener('click', itemEditClick);
+
+    // Updateitem event
+    UISelectors.updateBtn.addEventListener('click', itemUpdateSubmit);
   };
 
   // Public methods
