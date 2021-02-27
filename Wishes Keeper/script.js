@@ -1,6 +1,7 @@
 'use strict';
 // Storage Controller
 
+//*------------------------------------------------------
 // Item Controller
 const ItemController = (function () {
   // Item constructor
@@ -13,9 +14,9 @@ const ItemController = (function () {
   // Data Structure / State
   const data = {
     items: [
-      // { id: 0, name: 'iPhone-12', cost: 1000 },
-      // { id: 1, name: 'Laptop', cost: 1400 },
-      // { id: 2, name: 'Car (BMW-i3)', cost: 8900 },
+      { id: 0, name: 'iPhone-12', cost: 1000 },
+      { id: 1, name: 'Laptop', cost: 1400 },
+      { id: 2, name: 'Car (BMW-i3)', cost: 8900 },
     ],
     currentItem: null,
     totalCost: 0,
@@ -45,6 +46,16 @@ const ItemController = (function () {
 
       return newItem;
     },
+    getItemById: function (id) {
+      const found = data.items.find(item => item.id === id);
+      return found;
+    },
+    setCurrentItem: function (itemToEdit) {
+      data.currentItem = itemToEdit;
+    },
+    getCurrentItem: function () {
+      return data.currentItem;
+    },
     getTotalCost: function () {
       let total = 0;
       data.items.forEach(item => {
@@ -61,11 +72,15 @@ const ItemController = (function () {
   };
 })();
 
-// UI COntroller
+//*--------------------------------------------------------------
+// UI Controller
 const UIController = (function () {
   const UISelectors = {
     itemList: document.querySelector('#item-list'),
     addBtn: document.querySelector('.add-btn'),
+    updateBtn: document.querySelector('.update-btn'),
+    deleteBtn: document.querySelector('.delete-btn'),
+    backBtn: document.querySelector('.back-btn'),
     itemNameInput: document.querySelector('#item-name'),
     itemCostInput: document.querySelector('#item-cost'),
     totalCost: document.querySelector('.total-cost'),
@@ -113,8 +128,26 @@ const UIController = (function () {
       UISelectors.itemNameInput.value = '';
       UISelectors.itemCostInput.value = '';
     },
+    addItemToFormForEdit: function () {
+      UISelectors.itemNameInput.value = ItemController.getCurrentItem().name;
+      UISelectors.itemCostInput.value = ItemController.getCurrentItem().cost;
+      UIController.displayEditState();
+    },
     displayTotalCost: function (totalCost) {
       UISelectors.totalCost.textContent = totalCost;
+    },
+    clearEditState: function () {
+      UIController.clearInputFields();
+      UISelectors.updateBtn.style.display = 'none';
+      UISelectors.deleteBtn.style.display = 'none';
+      UISelectors.backBtn.style.display = 'none';
+      UISelectors.addBtn.style.display = 'inline';
+    },
+    displayEditState: function () {
+      UISelectors.updateBtn.style.display = 'inline';
+      UISelectors.deleteBtn.style.display = 'inline';
+      UISelectors.backBtn.style.display = 'inline';
+      UISelectors.addBtn.style.display = 'none';
     },
     getSelectors: function () {
       return UISelectors;
@@ -122,6 +155,7 @@ const UIController = (function () {
   };
 })();
 
+//*--------------------------------------------------------------
 // App Controller
 const App = (function (ItemController, UIController) {
   // Add item submit
@@ -145,6 +179,30 @@ const App = (function (ItemController, UIController) {
     }
   };
 
+  // Update item submit
+  const itemUpdateSubmit = function (e) {
+    e.preventDefault();
+    if (e.target.classList.contains('edit-item')) {
+      // Get list item id
+      const listId = e.target.parentNode.parentNode.id;
+
+      // Break into an array
+      const listIdArr = listId.split('-');
+
+      // Get the actual id
+      const id = parseInt(listIdArr[1]);
+
+      // Get item
+      const itemToEdit = ItemController.getItemById(id);
+
+      // Set current item
+      ItemController.setCurrentItem(itemToEdit);
+
+      // Add item to form for edit it
+      UIController.addItemToFormForEdit();
+    }
+  };
+
   // Load event listeners
   const loadEventListeners = function () {
     // Get UI Selectors
@@ -152,11 +210,17 @@ const App = (function (ItemController, UIController) {
 
     // Add item event
     UISelectors.addBtn.addEventListener('click', itemAddSubmit);
+
+    // Edit-icon click event
+    UISelectors.itemList.addEventListener('click', itemUpdateSubmit);
   };
 
   // Public methods
   return {
     init: function () {
+      // Clear edit state / set initial set
+      UIController.clearEditState();
+
       // Fetch items from data structure
       const items = ItemController.getItems();
 

@@ -1,6 +1,6 @@
-.btn-warning {
+.btn-warning,
+.btn-warning:hover {
   color: #fff;
-  background-color: orange;
 }
 
 .form-control {
