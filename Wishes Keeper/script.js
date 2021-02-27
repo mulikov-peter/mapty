@@ -60,6 +60,17 @@ const ItemController = (function () {
       });
       return found;
     },
+    deleteItem: function (id) {
+      // Get ids
+      const ids = data.items.map(item => item.id);
+      // Get index
+      const index = ids.indexOf(id);
+      // Remove item
+      data.items.splice(index, 1);
+    },
+    clearAllItems: function () {
+      data.items = [];
+    },
     setCurrentItem: function (itemToEdit) {
       data.currentItem = itemToEdit;
     },
@@ -94,6 +105,7 @@ const UIController = (function () {
     updateBtn: document.querySelector('.update-btn'),
     deleteBtn: document.querySelector('.delete-btn'),
     backBtn: document.querySelector('.back-btn'),
+    clearAllBtn: document.querySelector('.btn-clear-all'),
     itemNameInput: document.querySelector('#item-name'),
     itemCostInput: document.querySelector('#item-cost'),
     totalCost: document.querySelector('.total-cost'),
@@ -150,16 +162,13 @@ const UIController = (function () {
             <i class='edit-item fa fa-pencil pull-right'></i>
           </a>
           `;
-
-          //TODO
-          // const li = createLiElement(
-          //   itemId,
-          //   updatedItem.name,
-          //   updatedItem.cost
-          // );
-          // document.querySelector(`#${itemId}`).replaceWith(li);
         }
       });
+    },
+    deleteListItem: function (id) {
+      const itemId = `#item-${id}`;
+      const item = document.querySelector(itemId);
+      item.remove();
     },
     clearInputFields: function () {
       UISelectors.itemNameInput.value = '';
@@ -169,6 +178,11 @@ const UIController = (function () {
       UISelectors.itemNameInput.value = ItemController.getCurrentItem().name;
       UISelectors.itemCostInput.value = ItemController.getCurrentItem().cost;
       UIController.displayEditState();
+    },
+    removeItems: function () {
+      let listItems = document.querySelectorAll('#item-list li');
+
+      [...listItems].forEach(item => item.remove());
     },
     displayTotalCost: function (totalCost) {
       UISelectors.totalCost.textContent = totalCost;
@@ -195,6 +209,38 @@ const UIController = (function () {
 //*--------------------------------------------------------------
 // App Controller
 const App = (function (ItemController, UIController) {
+  // Load event listeners
+  const loadEventListeners = function () {
+    // Get UI Selectors
+    const UISelectors = UIController.getSelectors();
+
+    // Add item event
+    UISelectors.addBtn.addEventListener('click', itemAddSubmit);
+
+    // Disable submit on enter
+    document.addEventListener('keypress', function (e) {
+      if (e.code === 'Enter') {
+        e.preventDefault();
+        return false;
+      }
+    });
+
+    // Edit-icon click event
+    UISelectors.itemList.addEventListener('click', itemEditClick);
+
+    // Update item event
+    UISelectors.updateBtn.addEventListener('click', itemUpdateSubmit);
+
+    // Delete item event
+    UISelectors.deleteBtn.addEventListener('click', itemDeleteSubmit);
+
+    // Back button event
+    UISelectors.backBtn.addEventListener('click', UIController.clearEditState);
+
+    // Clear all items event
+    UISelectors.clearAllBtn.addEventListener('click', clearAllItemsClick);
+  };
+
   // Add item submit
   const itemAddSubmit = function (e) {
     e.preventDefault();
@@ -257,27 +303,33 @@ const App = (function (ItemController, UIController) {
     UIController.clearEditState();
   };
 
-  // Load event listeners
-  const loadEventListeners = function () {
-    // Get UI Selectors
-    const UISelectors = UIController.getSelectors();
+  // Delete item submit
+  const itemDeleteSubmit = function (e) {
+    e.preventDefault();
+    // Get current item
+    const currentItem = ItemController.getCurrentItem();
+    //Delete from data structure
+    ItemController.deleteItem(currentItem.id);
+    // Delete from UI
+    UIController.deleteListItem(currentItem.id);
+    // Get total cost
+    const totalCost = ItemController.getTotalCost();
+    // Add total cost to UI
+    UIController.displayTotalCost(totalCost);
 
-    // Add item event
-    UISelectors.addBtn.addEventListener('click', itemAddSubmit);
+    UIController.clearEditState();
+  };
 
-    // Disable submit on enter
-    document.addEventListener('keypress', function (e) {
-      if (e.code === 'Enter') {
-        e.preventDefault();
-        return false;
-      }
-    });
-
-    // Edit-icon click event
-    UISelectors.itemList.addEventListener('click', itemEditClick);
-
-    // Updateitem event
-    UISelectors.updateBtn.addEventListener('click', itemUpdateSubmit);
+  // Clear items event
+  const clearAllItemsClick = function () {
+    // Delete all items from data structure
+    ItemController.clearAllItems();
+    // Get total cost
+    const totalCost = ItemController.getTotalCost();
+    // Add total cost to UI
+    UIController.displayTotalCost(totalCost);
+    // Remove from UI
+    UIController.removeItems();
   };
 
   // Public methods
