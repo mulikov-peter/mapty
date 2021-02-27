@@ -209,7 +209,7 @@ const UIController = (function () {
 //*--------------------------------------------------------------
 // App Controller
 const App = (function (ItemController, UIController) {
-  // Load event listeners
+  //^ Load event listeners
   const loadEventListeners = function () {
     // Get UI Selectors
     const UISelectors = UIController.getSelectors();
@@ -241,7 +241,7 @@ const App = (function (ItemController, UIController) {
     UISelectors.clearAllBtn.addEventListener('click', clearAllItemsClick);
   };
 
-  // Add item submit
+  //^ Add item submit
   const itemAddSubmit = function (e) {
     e.preventDefault();
     // Get form input from UI Controller
@@ -262,7 +262,7 @@ const App = (function (ItemController, UIController) {
     }
   };
 
-  // Click edit item
+  //^ Click edit item
   const itemEditClick = function (e) {
     e.preventDefault();
     if (e.target.classList.contains('edit-item')) {
@@ -286,7 +286,7 @@ const App = (function (ItemController, UIController) {
     }
   };
 
-  // Update item submit
+  //^ Update item submit
   const itemUpdateSubmit = function (e) {
     e.preventDefault();
     // Get item input
@@ -303,7 +303,7 @@ const App = (function (ItemController, UIController) {
     UIController.clearEditState();
   };
 
-  // Delete item submit
+  //^ Delete item submit
   const itemDeleteSubmit = function (e) {
     e.preventDefault();
     // Get current item
@@ -320,7 +320,7 @@ const App = (function (ItemController, UIController) {
     UIController.clearEditState();
   };
 
-  // Clear items event
+  //^ Clear items event
   const clearAllItemsClick = function () {
     // Delete all items from data structure
     ItemController.clearAllItems();
@@ -332,7 +332,7 @@ const App = (function (ItemController, UIController) {
     UIController.removeItems();
   };
 
-  // Public methods
+  //^ Public methods
   return {
     init: function () {
       // Clear edit state / set initial set
