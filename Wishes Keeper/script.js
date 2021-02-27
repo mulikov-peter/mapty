@@ -51,12 +51,11 @@ const ItemController = (function () {
       // Cost to number
       const costNumber = parseInt(cost);
 
-      let found = null;
-      data.items.forEach(item => {
+      const found = data.items.find(item => {
         if (item.id === data.currentItem.id) {
           item.name = name;
           item.cost = costNumber;
-          found = item;
+          return item;
         }
       });
       return found;
