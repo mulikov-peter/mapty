@@ -36,7 +36,7 @@ export const loadCocktail = async function (id) {
   }
 };
 
-export const loadSearchResult = async function (query) {
+export const loadSearchNameResult = async function (query) {
   try {
     state.search.query = query;
 
@@ -54,4 +54,3 @@ export const loadSearchResult = async function (query) {
   }
 };
 
-// loadSearchResult('mArgarIta');

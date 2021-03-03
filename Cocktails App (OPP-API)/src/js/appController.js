@@ -1,7 +1,7 @@
 import * as model from './model.js';
 import cocktailView from './ui-views/cocktailView.js';
 import searchByNameView from './ui-views/searchByNameView.js';
-import resultsView from './ui-views/resultsView.js';
+import resultsNameView from './ui-views/resultsNameView.js';
 
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
@@ -30,28 +30,28 @@ const controllCocktails = async function () {
   }
 };
 
-const controllSearchResults = async function () {
+const controllSearchNameResults = async function () {
   try {
     // Render spinner
-    resultsView.renderSpinner();
+    resultsNameView.renderSpinner();
 
     // Get search query
     const query = searchByNameView.getQuery();
     if (!query) return;
 
     // Load search results
-    await model.loadSearchResult(query);
+    await model.loadSearchNameResult(query);
 
     // Render results
-    resultsView.render(model.state.search.results);
+    resultsNameView.render(model.state.search.results);
   } catch (err) {
-    resultsView.renderError();
+    resultsNameView.renderError();
   }
 };
 
 const init = function () {
   cocktailView.addHendlerRender(controllCocktails);
-  searchByNameView.addHendlerSearchByName(controllSearchResults);
+  searchByNameView.addHendlerSearchByName(controllSearchNameResults);
 };
 
 init();

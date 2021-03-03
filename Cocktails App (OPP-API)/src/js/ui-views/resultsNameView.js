@@ -1,6 +1,6 @@
 import View from './View.js';
 
-class ResultsView extends View {
+class ResultsNameView extends View {
   _parentElement = document.querySelector('.result-container');
 
   _generateMarkup() {
@@ -23,4 +23,4 @@ class ResultsView extends View {
   }
 }
 
-export default new ResultsView();
+export default new ResultsNameView();
