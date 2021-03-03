@@ -49,9 +49,6 @@ export const loadSearchResult = async function (query) {
         img: drink.strDrinkThumb,
       };
     });
-
-    // console.log(data.drinks);
-    // console.log(state.search.results);
   } catch (err) {
     throw err;
   }

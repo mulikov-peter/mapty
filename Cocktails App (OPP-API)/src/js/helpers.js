@@ -23,8 +23,8 @@ export const getJSON = async function (url) {
     if (!res.ok) throw new Error('Something went wrong :(');
     return data;
   } catch (err) {
-    console.log(err);
-    throw new Error(`Invalid id`);
+    // throw new Error(`Invalid id`);
+    throw err;
   }
 };
 

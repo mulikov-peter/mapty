@@ -1,11 +1,15 @@
 import * as model from './model.js';
 import cocktailView from './ui-views/cocktailView.js';
-import SearchByNameView from './ui-views/searchByNameView.js';
+import searchByNameView from './ui-views/searchByNameView.js';
+import resultsView from './ui-views/resultsView.js';
 
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import { async } from 'regenerator-runtime/runtime';
-import searchByNameView from './ui-views/searchByNameView.js';
+
+if (module.hot) {
+  module.hot.accept();
+}
 
 const controllCocktails = async function () {
   try {
@@ -13,13 +17,13 @@ const controllCocktails = async function () {
 
     if (!id) return;
 
-    //^ Render spinner
+    // Render spinner
     cocktailView.renderSpinner();
 
-    //^ Loading cocktail by id from model
+    // Loading cocktail by id from model
     await model.loadCocktail(id);
 
-    //^ Rendering cocktail (from cocktailView)
+    // Rendering cocktail (from cocktailView)
     cocktailView.render(model.state.cocktail);
   } catch (err) {
     cocktailView.renderError();
@@ -28,6 +32,9 @@ const controllCocktails = async function () {
 
 const controllSearchResults = async function () {
   try {
+    // Render spinner
+    resultsView.renderSpinner();
+
     // Get search query
     const query = searchByNameView.getQuery();
     if (!query) return;
@@ -36,9 +43,9 @@ const controllSearchResults = async function () {
     await model.loadSearchResult(query);
 
     // Render results
-    console.log(model.state.search.results);
+    resultsView.render(model.state.search.results);
   } catch (err) {
-    console.log(err);
+    resultsView.renderError();
   }
 };
 

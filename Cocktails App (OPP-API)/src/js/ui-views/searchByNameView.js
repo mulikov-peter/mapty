@@ -1,18 +1,18 @@
 class SearchByNameView {
-  #parentEl = document.querySelector('.search');
+  _parentEl = document.querySelector('.search');
 
   getQuery() {
-    const query = this.#parentEl.querySelector('.search-name').value;
-    this.#clearInput();
+    const query = this._parentEl.querySelector('.search-name').value;
+    this._clearInput();
     return query;
   }
 
-  #clearInput() {
-    this.#parentEl.querySelector('.search-name').value = '';
+  _clearInput() {
+    this._parentEl.querySelector('.search-name').value = '';
   }
 
   addHendlerSearchByName(handler) {
-    this.#parentEl.addEventListener('submit', function (e) {
+    this._parentEl.addEventListener('submit', function (e) {
       e.preventDefault();
       handler();
     });
