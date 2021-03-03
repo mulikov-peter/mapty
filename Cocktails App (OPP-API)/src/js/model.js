@@ -1,4 +1,7 @@
 import { async } from 'regenerator-runtime';
+import { API_ID_URL } from './config.js';
+import { getJSON } from './helpers.js';
+import { createIngredientObject } from './helpers.js';
 
 export const state = {
   cocktail: {},
@@ -7,28 +10,12 @@ export const state = {
 export const loadCocktail = async function (id) {
   try {
     // Loading cocktail by id
-    const res = await fetch(
-      `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`
-    );
-    const data = await res.json();
+    const data = await getJSON(`${API_ID_URL}${id}`);
 
-    if (!res.ok) throw new Error('Something went wrong :(');
+    // Create list of ingredient/measure object
+    const ingredientsFull = createIngredientObject(data);
 
-    // Get ingredients & measures from data
-    const ingredients = [];
-    const measures = [];
-
-    for (const x in data.drinks[0]) {
-      if (x.slice(0, 13) === 'strIngredient')
-        ingredients.push(data.drinks[0][x]);
-      if (x.slice(0, 10) === 'strMeasure') measures.push(data.drinks[0][x]);
-    }
-
-    // Create array of object ingredients & measures
-    const ingredientsFull = ingredients.map((el, i) => {
-      return { ingredient: el, measure: measures[i] };
-    });
-
+    // Put data to state cocktail
     state.cocktail = {
       id: data.drinks[0].idDrink,
       title: data.drinks[0].strDrink.toUpperCase(),
@@ -37,13 +24,12 @@ export const loadCocktail = async function (id) {
       glass: data.drinks[0].strGlass,
       instruction: data.drinks[0].strInstructions,
       ingredientsFull,
-      ingredients,
-      measures,
       favorite: false,
     };
   } catch (err) {
-    console.log(err);
+    alert(err);
+    // console.log(err);
   }
 
-  // console.log(state.cocktail);
+  console.log(state.cocktail);
 };

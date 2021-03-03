@@ -5,12 +5,12 @@ class CocktailView {
   #parentElement = document.querySelector('.cocktail-container');
   #data;
 
-  // Clear html of parent elemnt
+  //^ Clear html of parent elemnt
   #clear() {
     this.#parentElement.innerHTML = '';
   }
 
-  // Render data to ui
+  //^ Render data to ui
   render(data) {
     this.#data = data;
     const markup = this.#generateMarkup();
@@ -18,7 +18,7 @@ class CocktailView {
     this.#parentElement.insertAdjacentHTML('afterbegin', markup);
   }
 
-  // Render spinner
+  //^ Render spinner
   renderSpinner() {
     const markup = `
     <div class="d-flex justify-content-center">
@@ -31,7 +31,7 @@ class CocktailView {
     this.#parentElement.insertAdjacentHTML('afterbegin', markup);
   }
 
-  // Generate markup for full cocktail
+  //^ Generate markup for full cocktail
   #generateMarkup() {
     return `
       <div class="card bg-dark m-2">
@@ -65,7 +65,7 @@ class CocktailView {
       `;
   }
 
-  // Generate markup for ingredients
+  //^ Generate markup for ingredients
   #generateMarkupIngridient(ing) {
     if (!ing.ingredient) return;
 

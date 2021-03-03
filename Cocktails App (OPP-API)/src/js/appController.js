@@ -18,14 +18,9 @@ const controllCocktails = async function () {
 
     //^ Rendering cocktail (from cocktailView)
     cocktailView.render(model.state.cocktail);
-
-    //-----------------------------
-    // console.log(data);
-    // console.log(id);
-    //-----------------------------
   } catch (err) {
     console.log(err);
-    alert(err);
+    // alert(err);
   }
 };
 
