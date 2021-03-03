@@ -1,10 +1,15 @@
 import { async } from 'regenerator-runtime';
 import { API_ID_URL } from './config.js';
+import { API_NAME_URL } from './config.js';
 import { getJSON } from './helpers.js';
 import { createIngredientObject } from './helpers.js';
 
 export const state = {
   cocktail: {},
+  search: {
+    query: '',
+    results: [],
+  },
 };
 
 export const loadCocktail = async function (id) {
@@ -29,6 +34,27 @@ export const loadCocktail = async function (id) {
   } catch (err) {
     throw err;
   }
-
-  console.log(state.cocktail);
 };
+
+export const loadSearchResult = async function (query) {
+  try {
+    state.search.query = query;
+
+    const data = await getJSON(`${API_NAME_URL}${query}`);
+
+    state.search.results = data.drinks.map(drink => {
+      return {
+        id: drink.idDrink,
+        title: drink.strDrink.toUpperCase(),
+        img: drink.strDrinkThumb,
+      };
+    });
+
+    // console.log(data.drinks);
+    // console.log(state.search.results);
+  } catch (err) {
+    throw err;
+  }
+};
+
+// loadSearchResult('mArgarIta');

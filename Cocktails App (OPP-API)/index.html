@@ -31,29 +31,31 @@
       <h2>Cocktail Bar</h2>   
      
       <!-- Input search  -->
-      <div class="row">
-        <div class="input-group mb-3 col">
-          <input type="text" class="form-control" placeholder="Search cocktails by name" aria-label="Search cocktails by name" aria-describedby="basic-addon2">
+      <form class="search form-row">
+        <div class="input-group mb-3 col-md">
+          <input type="text" class="form-control search-name" placeholder="Search cocktails by name" aria-label="Search cocktails by name" aria-describedby="basic-addon2">
           <div class="input-group-append">
             <span>
-              <button class="btn btn-outline-secondary" type="button">
+              <button class="btn btn-outline-secondary" type="submit">
                 <i class="fa fa-search"></i>
               </button>
             </span>
           </div>
         </div>
         <!-- Search by ingredient -->
-        <div class="input-group mb-3 col">
+        <div class="input-group mb-3 col-md">
           <input type="text" class="form-control" placeholder="Search cocktails by ingredient name" aria-label="Search cocktails by ingredient name" aria-describedby="basic-addon2">
           <div class="input-group-append">
             <span>
-              <button class="btn btn-outline-secondary" type="button">
+              <button class="btn btn-outline-secondary" type="submit">
                 <i class="fa fa-search"></i>
               </button>
             </span>
           </div>
         </div>
-      </div>
+      </form>
+
+      <!-- Display cocktails -->
       <div class="cocktail-container"></div>
 
       
