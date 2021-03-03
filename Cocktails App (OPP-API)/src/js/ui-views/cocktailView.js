@@ -1,9 +1,11 @@
 // import icons from './img/heart.svg'; // Parcel 1
-import icons from 'url:../../img/favorite.png'; // Parcel 2
+import favorite from 'url:../../img/favorite.png'; // Parcel 2
+import warning from 'url:../../img/warning.png';
 
 class CocktailView {
   #parentElement = document.querySelector('.cocktail-container');
   #data;
+  #errorMessage = `We could not find that cocktail. Please try another one...`;
 
   //^ Clear html of parent elemnt
   #clear() {
@@ -35,13 +37,22 @@ class CocktailView {
     this.#parentElement.insertAdjacentHTML('afterbegin', markup);
   }
 
+  //^ Render error
+  renderError(message = this.#errorMessage) {
+    const markup = `
+      <h4 class='mt-5 text-center'> <span> <img class='icon warning align-top' src="${warning}" alt="warning"> ${message}</span></h4>
+    `;
+    this.#clear();
+    this.#parentElement.insertAdjacentHTML('afterbegin', markup);
+  }
+
   //^ Generate markup for full cocktail
   #generateMarkup() {
     return `
       <div class="card bg-dark m-2">
       <h4 class="card-header cocktailName">${this.#data.title} 
         <a href="#"> 
-          <img class='icon favorite pull-right mh-20' src="${icons}" alt="heart">
+          <img class='icon favorite pull-right mh-20' src="${favorite}" alt="heart">
         </a>
       </h4>
       

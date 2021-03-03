@@ -27,8 +27,7 @@ export const loadCocktail = async function (id) {
       favorite: false,
     };
   } catch (err) {
-    alert(err);
-    // console.log(err);
+    throw err;
   }
 
   console.log(state.cocktail);

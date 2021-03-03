@@ -19,7 +19,7 @@ const controllCocktails = async function () {
     //^ Rendering cocktail (from cocktailView)
     cocktailView.render(model.state.cocktail);
   } catch (err) {
-    console.log(err);
+    cocktailView.renderError();
   }
 };
 
