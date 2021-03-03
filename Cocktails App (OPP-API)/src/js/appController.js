@@ -20,12 +20,11 @@ const controllCocktails = async function () {
     cocktailView.render(model.state.cocktail);
   } catch (err) {
     console.log(err);
-    // alert(err);
   }
 };
 
-// showCocktail();
+const init = function () {
+  cocktailView.addHendlerRender(controllCocktails);
+};
 
-['hashchange', 'load'].forEach(ev =>
-  window.addEventListener(ev, controllCocktails)
-);
+init();

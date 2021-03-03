@@ -10,6 +10,10 @@ class CocktailView {
     this.#parentElement.innerHTML = '';
   }
 
+  addHendlerRender(handler) {
+    ['hashchange', 'load'].forEach(ev => window.addEventListener(ev, handler));
+  }
+
   //^ Render data to ui
   render(data) {
     this.#data = data;
