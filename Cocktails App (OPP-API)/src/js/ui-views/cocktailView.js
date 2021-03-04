@@ -33,7 +33,7 @@ class CocktailView extends View {
             .map(this._generateMarkupIngridient)
             .join('')}
 
-            <li class="list-group-item text-justify">${
+            <li class="list-group-item text-justify p-0">${
               this._data.instruction
             }</li>
           </ul>

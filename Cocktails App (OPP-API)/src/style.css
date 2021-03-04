@@ -2,6 +2,32 @@
   height: 25px;
 }
 
-.img-cocktail {
-  height: 100px;
+.result-container > .card {
+  background-color: #002b36;
+  width: 120px;
+}
+
+.result-container > .card img {
+  width: 120px;
+}
+
+.result-container > .card p {
+  /* text-overflow: ellipsis; */
+  text-overflow: clip;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+@media only screen and (max-width: 576px) {
+  .result-container > .card p {
+    font-size: 10px;
+  }
+
+  .result-container > .card {
+    width: 40px;
+  }
+
+  .result-container > .card img {
+    width: 40px;
+  }
 }
