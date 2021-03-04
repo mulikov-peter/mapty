@@ -12,8 +12,8 @@ if (module.hot) {
   module.hot.accept();
 }
 
-// Controller - when click on cocktail
-const controllCocktails = async function () {
+//^ Controller - when click on cocktail
+const controlCocktails = async function () {
   try {
     const id = window.location.hash.slice(1);
 
@@ -22,6 +22,9 @@ const controllCocktails = async function () {
     // Render spinner
     cocktailView.renderSpinner();
 
+    // Update results view to mark selected search result
+    resultsNameView.update(model.getSearchResultsPage());
+
     // Loading cocktail by id from model
     await model.loadCocktail(id);
 
@@ -29,11 +32,12 @@ const controllCocktails = async function () {
     cocktailView.render(model.state.cocktail);
   } catch (err) {
     cocktailView.renderError();
+    console.log(err);
   }
 };
 
-// Controller - when search by name
-const controllSearchNameResults = async function () {
+//^ Controller - when search by name
+const controlSearchNameResults = async function () {
   try {
     // Render spinner
     resultsNameView.renderSpinner();
@@ -46,7 +50,6 @@ const controllSearchNameResults = async function () {
     await model.loadSearchNameResult(query);
 
     // Render results
-    // resultsNameView.render(model.state.search.results);
     resultsNameView.render(model.getSearchResultsPage());
 
     // Render initial pagination buttons
@@ -58,21 +61,34 @@ const controllSearchNameResults = async function () {
   }
 };
 
-// Controller when click on pagination button
+//^ Controller when click on pagination button
 const constrolPagination = function (gotoPage) {
   // Render new results
-  // resultsNameView.render(model.state.search.results);
   resultsNameView.render(model.getSearchResultsPage(gotoPage));
 
   // Render new pagination buttons
   paginationView.render(model.state.search);
 };
 
-const controlFavorite = function () {};
+//^ Controller when click on heart img
+const controlAddFavorite = function () {
+  // Add/remove favorite
+  if (!model.state.cocktail.favorite) model.addFavorite(model.state.cocktail);
+  else model.removeFavorite(model.state.cocktail.id);
+
+  // Update cocktail view
+  // cocktailView.update(model.state.cocktail);
+  cocktailView.render(model.state.cocktail);
+
+  //TODO Render favorite
+  //! TEST
+  console.log(model.state, model.state.cocktail);
+};
 
 const init = function () {
-  cocktailView.addHendlerRender(controllCocktails);
-  searchByNameView.addHendlerSearchByName(controllSearchNameResults);
+  cocktailView.addHendlerRender(controlCocktails);
+  cocktailView.addHendlerAddFavorite(controlAddFavorite);
+  searchByNameView.addHendlerSearchByName(controlSearchNameResults);
   paginationView.addHandlerClick(constrolPagination);
 };
 

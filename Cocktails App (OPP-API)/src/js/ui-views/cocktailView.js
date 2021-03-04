@@ -1,6 +1,7 @@
 import View from './View.js';
 // import icons from './img/heart.svg'; // Parcel 1
 import favorite from 'url:../../img/favorite.png'; // Parcel 2
+import favoriteFull from 'url:../../img/favoriteFull.png'; // Parcel 2
 
 class CocktailView extends View {
   _parentElement = document.querySelector('.cocktail-container');
@@ -9,19 +10,29 @@ class CocktailView extends View {
     ['hashchange', 'load'].forEach(ev => window.addEventListener(ev, handler));
   }
 
+  addHendlerAddFavorite(handler) {
+    this._parentElement.addEventListener('click', function (e) {
+      const btn = e.target.closest('.btn-favorite');
+      if (!btn) return;
+      handler();
+    });
+  }
+
   //^ Generate markup for full cocktail
   _generateMarkup() {
     return `
       <div class="card bg-dark m-2">
       <h4 class="card-header cocktailName text-justify">${this._data.title} 
-        <a href="#"> 
-          <img class='icon favorite pull-right mh-20' src="${favorite}" alt="heart">
-        </a>
+        <span role="button" class="btn-favorite"> 
+          <img class='icon favorite pull-right' src="${
+            this._data.favorite ? favoriteFull : favorite
+          }" alt="heart">
+        </span>
       </h4>
       
       <div class="card-body row">
         <div class="col-md-3 col-ms-1 col-xs-1" >
-          <img class="img-fluid rounded mb-2"  src="${this._data.img}">
+          <img class="img-fluid rounded mb-2" src="${this._data.img}">
           <div ><b>Category:</b> ${this._data.type}</div>
           <div><b>Glass:</b> ${this._data.glass}</div>
         </div>
