@@ -19,6 +19,10 @@
   overflow: hidden;
 }
 
+.dropdown-menu.show {
+  width: 250px;
+}
+
 @media only screen and (max-width: 576px) {
   .result-container > .card p {
     font-size: 10px;

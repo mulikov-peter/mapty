@@ -68,6 +68,7 @@ export const loadSearchNameResult = async function (query) {
   }
 };
 
+//^ Pagination
 export const getSearchResultsPage = function (page = state.search.page) {
   state.search.page = page;
 
@@ -77,6 +78,10 @@ export const getSearchResultsPage = function (page = state.search.page) {
   return state.search.results.slice(start, end);
 };
 
+const persistFavorites = function () {
+  localStorage.setItem('favorites', JSON.stringify(state.favorites));
+};
+
 //^ Add favorite cocktail to state favorites
 export const addFavorite = function (cocktail) {
   // Add favorites
@@ -84,6 +89,8 @@ export const addFavorite = function (cocktail) {
 
   // Mark current cocktail as favorite
   if (cocktail.id === state.cocktail.id) state.cocktail.favorite = true;
+
+  persistFavorites();
 };
 
 //^ Remove favorite from array of favorites
@@ -94,4 +101,13 @@ export const removeFavorite = function (id) {
 
   // Mark current cocktail as NOT favorite
   if (id === state.cocktail.id) state.cocktail.favorite = false;
+
+  persistFavorites();
 };
+
+const init = function () {
+  const storage = localStorage.getItem('favorites');
+  if (storage) state.favorites = JSON.parse(storage);
+};
+
+init();

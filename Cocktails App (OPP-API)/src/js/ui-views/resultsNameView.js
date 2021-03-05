@@ -2,6 +2,8 @@ import View from './View.js';
 
 class ResultsNameView extends View {
   _parentElement = document.querySelector('.result-container');
+  _errorMessage = 'We could not find that cocktail. Please try another one...';
+  _message = '';
 
   _generateMarkup() {
     return `

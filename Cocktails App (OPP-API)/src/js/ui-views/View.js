@@ -2,7 +2,6 @@ import warning from 'url:../../img/warning.png';
 
 export default class View {
   _data;
-  _errorMessage = `We could not find that cocktail. Please try another one...`;
 
   //^ Clear html of parent elemnt
   _clear() {

@@ -3,6 +3,7 @@ import cocktailView from './ui-views/cocktailView.js';
 import searchByNameView from './ui-views/searchByNameView.js';
 import resultsNameView from './ui-views/resultsNameView.js';
 import paginationView from './ui-views/paginationView.js';
+import favoriteView from './ui-views/favoriteView.js';
 
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
@@ -32,7 +33,7 @@ const controlCocktails = async function () {
     cocktailView.render(model.state.cocktail);
   } catch (err) {
     cocktailView.renderError();
-    console.log(err);
+    console.error(err);
   }
 };
 
@@ -80,12 +81,19 @@ const controlAddFavorite = function () {
   // cocktailView.update(model.state.cocktail);
   cocktailView.render(model.state.cocktail);
 
-  //TODO Render favorite
+  // Render favorite
+  favoriteView.render(model.state.favorites);
+
   //! TEST
   console.log(model.state, model.state.cocktail);
 };
 
+const controlFavorites = function () {
+  favoriteView.render(model.state.favorites);
+};
+
 const init = function () {
+  favoriteView.addHandlerRender(controlFavorites);
   cocktailView.addHendlerRender(controlCocktails);
   cocktailView.addHendlerAddFavorite(controlAddFavorite);
   searchByNameView.addHendlerSearchByName(controlSearchNameResults);

@@ -5,6 +5,8 @@ import favoriteFull from 'url:../../img/favoriteFull.png'; // Parcel 2
 
 class CocktailView extends View {
   _parentElement = document.querySelector('.cocktail-container');
+  _errorMessage = `We could not find that cocktail. Please try another one...`;
+  _message = '';
 
   addHendlerRender(handler) {
     ['hashchange', 'load'].forEach(ev => window.addEventListener(ev, handler));
