@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+
+    <title>Game Paper Stone Scissors</title>
+  </head>
+  <body>
+    <h2>Game Paper Stone Scissors</h2>
+    <div class="select">
+      <h3>Choose:</h3>
+      <div class="paper hand" data-option="paper">Paper</div>
+      <div class="stone hand" data-option="stone">Stone</div>
+      <div class="scissors hand" data-option="scissors">Scissors</div>
+    </div>
+    <button class="start">START</button>
+
+    <div class="panel-left">
+      <h3>Game:</h3>
+      <p>Your choice: <span data-summary="user-choice"></span></p>
+      <p>Comp choice: <span data-summary="comp-choice"></span></p>
+      <h2>Winner:<span data-summary="winner"></span></h2>
+    </div>
+    <div class="panel-right">
+      <h3>Current:</h3>
+      <p class="game-amount">Game amount: <span>0</span></p>
+      <p class="win">Wins: <span>0</span></p>
+      <p class="loss">Losses: <span>0</span></p>
+      <p class="draw">Draws: <span>0</span></p>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

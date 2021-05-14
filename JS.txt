@@ -1,0 +1,154 @@
+===================== JS ENGINE
+JS engine = CALL STACK & MEMORY HEAP
+
+============================  RÓ¯NICA POMIÊDZY == i ===
+Operator == porówna pod k¹tem równoœci po wykonaniu konwersji (koersji) typu (coercion - przymus). 
+Potrójny znak równoœci === jest operatorem œcis³ej równoœci. Operator === nie dokona konwersji (koersji) typu, wiêc jeœli dwie wartoœci nie s¹ tego samego typu, === zwróci false.
+
+
+============================  Operatory logiczne
+&&. Je¿eli pierwsza wartoœæ nie jest falsy (false, 0, "", null, undefined, NaN), wtedy podstawiana jest druga wartoœæ. W przeciwnym razie wybierana jest pierwsza wartoœæ.
+|| podstawia pod zmienn¹ wartoœæ pierwsz¹ w przypadku, gdy jest ona inna od falsy. W przeciwnym wypadku podstawiana jest wartoœæ druga.
+
+============================  Operator null'owego scalania (??)
+Operator null'owego scalania (??) - to operator logiczny, stosowany w wyra¿eniach, który zwraca to co jest po jego lewej stronie, tak d³ugo, jak to nie jest null, albo undefined, wtedy zwraca to, co jest po prawej.
+
+============================  Ró¿nica miêdzy  null & undefined
+Zmienna undefined jest zmienn¹, która zosta³a zadeklarowana, ale nie ma przypisanej wartoœci. Jest to typu undefined. Jeœli funkcja nie zwraca ¿adnej wartoœci, poniewa¿ w wyniku jej wykonania jest przypisana do zmiennej, zmienna ma równie¿ wartoœæ undefined.
+Zmienna która jest null zostanie wyraŸnie przypisana do wartoœci null. Nie reprezentuje ¿adnej wartoœci i ró¿ni siê od undefined w tym sensie, ¿e zosta³o to wyraŸnie przypisane.
+
+=========================== DOM 
+DOM - reprezentacja html documenta. DOM pozwala nam u¿ywaæ JavaScript do uzyskiwania dostêpu do elementów HTML i stylów w celu manipulowania nimi.
+
+=========================== SCOPE
+Zakres to przestrzeñ lub œrodowisko, w którym zadeklarowana jest okreœlona zmienna.
+SCOPING okreœlia i kontroluje sposób, w jaki zmienne naszego programu s¹ zorganizowane i dostêpne. Gdzie zmienne ¿yj¹ i gdzie mo¿emy uzyskaæ dostêp do nich.
+
+LEKSYKALNY zakres oznacza, sposób, w jaki zmienne s¹ organizowane i uzyskiwany do nich dostêp, jest ca³kowicie kontrolowany przez umieszczenie funkcji i bloków w kodzie programu.
+Na przyk³ad funkcja zapisana w innej funkcji ma dostêp do zmiennych funkcji
+
+nadrzêdnej.
+
+============================   FUNKCJE
+Funkcja jest obiektem w js, zbiorem wyra¿eñ, które wykonuj¹ jakieœ zadanie, b¹dŸ obliczaj¹ wartoœæ. Funkcja jest fragmentem kodu, którego mo¿emy wielokrotnie u¿ywaæ w naszym kodzie.
+
+============================  HOISTING
+Hoisting  (podnoszenie) to domyœlne zachowanie JavaScript polegaj¹ce na przenoszeniu wszystkich deklaracji na górê bie¿¹cego zakresu (na górê bie¿¹cego skryptu lub bie¿¹cej funkcji).
+
+x; // undefined
+y; // Reference error: y is not defined
+
+var x = 'local';
+let y = 'local';
+
+============================ THIS ======================
+Mechanizm this polega na wi¹zaniu s³owa k³uchowego this z obiektem. Wi¹zanie to jest tworzone w chwili wywo³ania funkcji.
+Wi¹zanie domyœlnie nastêpuje automatycznie , ale mo¿emy je zmieniæ (bind, call, apply).
+
+W wiêkszoœci przypadków wartoœæ this jest ustalana na podstawie tego, jak wywo³ana zosta³a dana funkcja. Wartoœæ ta nie mo¿e byæ przypisana podczas wykonywania siê funkcji i mo¿e byæ inna za ka¿dym wywo³aniem. 
+ES5 wprowadzi³o metodê bind dziêki której mo¿emy przypisaæ wartoœæ this w funkcji, niezale¿nie od tego jak zosta³a ona wywo³ana.
+
+============================  Dziedziczenie Prototypowe ============================ 
+Wszystkie obiekty JavaScript maj¹ w³aœciwoœæ __proto__, jest to odniesienie do innego obiektu, który nazywa siê "prototypem" obiektu. Gdy w³aœciwoœæ jest udostêpniana na obiekt i jeœli w³aœciwoœæ nie zosta³a znaleziona na tym obiekcie, silnik JavaScript sprawdza __proto__ obiektu oraz __proto__ z __proto__ i tak dalej, dopóki nie znajdzie w³aœciwoœci zdefiniowanej w jednym z __proto__ lub dopóki nie osi¹gnie koñca ³añcucha prototypów. 
+
+============================  CLOSURE
+Domkniêcia to funkcje, które maj¹ dostêp do zmiennych funkcji zewnêtrznej (obejmuj¹cej) - ³añcuch zasiêgu nawet po zwróceniu funkcji zewnêtrznej.
+
+Dlaczego mia³byœ skorzystaæ z tego?
+Prywatnoœæ danych/emulacja prywatnych metod przy domkniêciach.
+
+============================  BIND()
+Metoda bind() tworzy now¹ funkcjê, która po wywo³aniu ma ustawione s³owo kluczowe this na podan¹ wartoœæ, z podan¹ sekwencj¹ argumentów poprzedzaj¹c¹ dowoln¹ podan¹ podczas wywo³ywania nowej funkcji.
+
+============================  Call() & Apply()
+Zarówno .call, jak i .apply s¹ u¿ywane do wywo³ywania funkcji, a pierwszy parametr zostanie u¿yty jako wartoœæ this w funkcji. Jednak .call przyjmuje argumenty oddzielone przecinkami jako kolejne argumenty, podczas gdy .apply przyjmuje tablicê argumentów jako nastêpny argument.
+
+============================  EVENT LOOP
+Pêtla zdarzeñ jest pêtl¹ jednow¹tkow¹, która monitoruje stos wywo³añ (call stack) i sprawdza, czy w kolejce zadañ (task queue) jest jakaœ praca do wykonania. Jeœli stos wywo³añ jest pusty, a w kolejce zadañ znajduj¹ siê funkcje wywo³ania zwrotnego (callback), funkcja jest usuwana z kolejki i przekazywana na stos wywo³añ, który ma zostaæ wykonany.
+
+FIFO (First In First Out) - kolejka
+LIFO (Last In First Out) - stos
+
+============================ PROMISE ======================
+Obiekt Promise reprezentuje ewentualne zakoñczenie (lub pora¿kê) asynchronicznej operacji i jej wartoœci.
+
+Metody:
+Promise.all()
+Promise.any()
+Promise.race()
+Promise.reject()
+Promise.resolve()
+Promise.prototype.then()
+Promise.prototype.catch()
+Promise.prototype.finally()
+
+const myFirstPromise = new Promise((resolve, reject) => {
+  // do something asynchronous which eventually calls either:
+  //
+  //   resolve(someValue); // fulfilled
+  // or
+  //   reject("failure reason"); // rejected
+});
+
+============================  __proto__ vs prototype
+Ka¿dy obiekt ma proto. Dla tego ¿eby rozumieæ jakie proto trzeba wiedzieæ za pomoc¹ jakiej funkcji konstruktora powsta³ ten obiekt.
+
+const man = {} // new Object(...)
+const age = 18 // new Number(...) 
+
+Dowolny class i funkcja konstruktor ma prototype:
+class Dog {...}
+function Component(){...}
+const API = function(){...}
+
+Dog.prototype
+Component.prototype
+Object.prototype
+Promise.prototype
+Function.prototype
+Boolean.prototype
+Number.prototype
+String.prototype
+Array.prototype
+
+const  age = 18
+age.__proto__ === Number.prototype
+
+============================ Rekurencja 
+Rekurencja - funkcja wywo³uje siê. Mufunkcja wywoluje sama siebie. Musi byæ warunek si istnieæ warunek wyjœcia.
+
+============================  Zasady programowania obiektowego
+Hermetyzacji i ukrywania informacji Inkapsulacja
+Dziedziczenia
+Polimorfizm
+Abstrakcja
+
+=============================
+TDD: test-driven development
+najperw piszemy test a pó¿niej kod
+
+============================= SOLID
+Single Responsibility Paradigm
+Ka¿da klasa powinna reprezentowaæ tylko jeden byt.
+Klasy posiadaj¹ minimum niezbêdnych informacji.
+
+Open/Closed Paradigm
+Klasy s¹ otwarte na rozszerzenia i zamkniête na modyfikacje.
+
+Liskov Substitution Paradigm
+Klasy dziedzicz¹ce nie wiedz¹ o sobie nawzajem.
+If it looks like a duck, quacks like a duck, but needs batteries - you probably have the wrong abstraction.
+
+Interface Segregation Principle
+Interfejsy reprezentuj¹ minimum funkcjonalnoœci.
+
+Dependency Inversion Principle
+Kod z warstw wy¿szego poziomu nie powinien zale¿eæ od kodu z ni¿szych warstw, ale od abstrakcji.
+Abstrakcje nie powinny byæ zale¿ne od implementacji.
+
+================= CRUD
+ CRUD (Create, Read, Update, Delete) 
+
+=================== IIFE
+Immediately-invoked Function Expression (IIFE)
+Nie zaœmiecamy globalnej przestrzeni nazw

@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+body {
+  font-size: 18px;
+  background-color: rgb(9, 75, 90);
+  font-family: 'Nunito', sans-serif;
+  box-sizing: border-box;
+  color: aliceblue;
+  font-weight: bold;
+}
+
+.container {
+  width: 70%;
+  margin: auto;
+  text-align: center;
+}
+p {
+  margin: 20px;
+}
+
+.play-again {
+  color: yellowgreen;
+}

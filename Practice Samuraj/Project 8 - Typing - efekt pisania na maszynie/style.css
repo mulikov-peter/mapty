@@ -1,0 +1,8 @@
+.text {
+  border-right: 0;
+  transition: 0.4s;
+}
+
+.text.active {
+  border-right: 1px solid black;
+}

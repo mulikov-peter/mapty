@@ -1,0 +1,53 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+img {
+  position: absolute;
+  min-width: 50%;
+  max-width: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0.8;
+}
+
+h1 {
+  position: absolute;
+  top: 80%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 40px;
+  font-family: thoma, sans-serif;
+  text-shadow: 0 0 6px #ccc;
+}
+.dots {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translate(-50%);
+}
+
+.dots span {
+  display: inline-block;
+  background-color: chartreuse;
+  margin: 0 20px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 5px #ccc;
+  cursor: pointer;
+}
+
+.dots span.active {
+  box-shadow: 0 0 0 5px rgb(220, 204, 204), 0 0 3px 10px rgb(197, 3, 3);
+}

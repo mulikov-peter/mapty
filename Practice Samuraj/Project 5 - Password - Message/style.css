@@ -1,0 +1,24 @@
+body {
+  margin: 5vw;
+  text-align: center;
+  background-color: darkturquoise;
+}
+label,
+input {
+  height: 40px;
+  line-height: 40px;
+  font-size: 30px;
+}
+
+div {
+  border: 2px solid darkslategrey;
+  font-size: 40px;
+  margin: 20px;
+  text-align: left;
+  padding: 10px;
+}
+
+.active {
+  background-color: darkslategray;
+  color: floralwhite;
+}
